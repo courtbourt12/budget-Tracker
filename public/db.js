@@ -43,8 +43,6 @@ form.onsubmit = addData;
 
 function addData(e) {
 
-    e.preventDefault();
-
     let newItem = { title: titleInput.value, body: bodyInput.value };
     let transaction = db.transaction(['budget'], 'readwrite');
     let objectStore = transaction.objectStore('budget');
