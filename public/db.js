@@ -1,7 +1,12 @@
 // When the site is offline, I want to grab all of the cached data and save it into an object.
+const indexedDB = 
+window.indexedDB ||
+window.mozIndexedDB ||
+window.webkitIndexedDB ||
+window.msIndexedDB ||
+window.shimIndexedDB;
 
 const { request } = require("express");
-const { format } = require("morgan");
 
 let db;
 
