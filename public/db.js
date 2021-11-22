@@ -9,13 +9,13 @@ window.shimIndexedDB;
 
 
 let db;
+let request = window.indexedDB.open('budget', 1);
 
 
 // When the page is refreshed and still offline, I want it to keep showing all the cached data.
 
 window.onload = function () {
     
-    let request = window.indexedDB.open('budget', 1);
     
     request.onerror = function() {
         console.log('Database failed to open.')
