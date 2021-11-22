@@ -62,7 +62,7 @@ function addData(e) {
         console.log('Transaction completed.');
     };
 
-    transaction.onerror = function {
+    transaction.onerror = function() {
         console.log('Transaction not completed.')
     };
 
