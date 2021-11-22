@@ -1,4 +1,4 @@
-const { response, request } = require("express");
+
 
 if('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
