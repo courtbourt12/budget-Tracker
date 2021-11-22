@@ -8,7 +8,7 @@ Entering transactions into a budget can be tedious.  You don't want to lose prog
 <br>
 <br>
 
-<img src="budget.jpg" alt = "Image of the deployed application">
+<img src="public/assets/budget.jpg" alt = "Image of the deployed application">
 
 <br>
 <br>

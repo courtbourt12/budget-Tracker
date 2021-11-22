@@ -14,7 +14,7 @@ let request = window.indexedDB.open('budget', 1);
 
 // When the page is refreshed and still offline, I want it to keep showing all the cached data.
 
-window.onload = function () {
+
     
     
     request.onerror = function() {
@@ -24,9 +24,12 @@ window.onload = function () {
     request.onsuccess = function() {
         console.log('Database opened successfully.');
         db = request.result;
+        if (navigator.onLine) {
+            addData();
+          }
     }
     
-};
+
 
 // Setting up database tables if it hasn't been set up already.
 
@@ -39,14 +42,14 @@ request.onupgradeneeded = function(e) {
     objectStore.createIndex('body', 'body', { unique: false });
     
     console.log('Database setup complete');
-    
 }
+    
 
 // When the add or subtract buttons are pushed, I want to save each entry.
 
-form.onsubmit = addData;
 
-function addData(e) {
+
+function addData() {
 
     let newItem = { title: titleInput.value, body: bodyInput.value };
     let transaction = db.transaction(['budget'], 'readwrite');
@@ -71,7 +74,11 @@ function addData(e) {
 // When the page is back online, I want all the data inputted while offline to remain on the page.
 
 function displayData() {
-    if (objectStore.result.length > 0) {
+    const transaction = db.transaction(["budget"], "readwrite");
+    const store = transaction.objectStore("budget");
+    const getAll = store.getAll();
+
+    if (getAll.result.length > 0) {
         fetch("/api/transaction/bulk", {
             method: "POST",
             body: JSON.stringify(getAll.result),
@@ -84,8 +91,8 @@ function displayData() {
         return response.json();
       })
       .then(() => {
-        const transaction = db.transaction(["pending"], "readwrite");
-        const store = transaction.objectStore("pending");
+        const transaction = db.transaction(["budget"], "readwrite");
+        const store = transaction.objectStore("budget");
         store.clear();
       });
 }}
