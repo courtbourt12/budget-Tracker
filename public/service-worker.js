@@ -24,26 +24,6 @@ self.addEventListener("install", function(evt) {
     self.skipWaiting();
   });
 
-// Checks to remove or keep any old content, deletes anything we don't need, and then creates a new service worker.
-
-  
-// self.addEventListener("activate", function(evt) {
-//   evt.waitUntil(
-//     caches.keys().then(keyList => {
-//       return Promise.all(
-//         keyList.map(key => {
-//           if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
-//             console.log("Removing old cache data", key);
-//             return caches.delete(key);
-//           }
-//         })
-//       );
-//     })
-//   );
-
-//   self.clients.claim();
-// });
-
 // For storing api data from the /api webpages.
   
 self.addEventListener("fetch", function(evt) {
@@ -52,11 +32,11 @@ self.addEventListener("fetch", function(evt) {
       evt.respondWith(
         caches.open(DATA_CACHE_NAME).then(cache => {
           return fetch(evt.request)
-            .then((res) => {
+            .then((response) => {
               if (response.status === 200) {
                 cache.put(evt.request.url, response.clone());
               }
-              return res;
+              return response;
             })
             .catch((err) => {
               return cache.match(evt.request);
@@ -70,8 +50,14 @@ self.addEventListener("fetch", function(evt) {
     // If the offline fetch was successful, then store the data, if not it will ignore it.
 
     evt.respondWith(
-      caches.match(evt.request).then(function(response) {
-        return response || fetch(evt.request);
-      })
+        fetch(evt.request).catch(function(){
+            return caches.match(evt.request).then(function(response){
+                if(response) {
+                    return response;
+                } else if (evt.request.headers.get("accept").includes("text/html")) {
+                    return caches.match("/");
+                }
+            });
+        })
     );
   });
