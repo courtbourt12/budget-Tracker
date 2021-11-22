@@ -7,8 +7,9 @@ var FILES_TO_CACHE = [
     '/styles.css',
     '/index.js',
     '/manifest.json',
-    "https://cdn.jsdelivr.net/npm/chart.js@2.8.0"
-]
+    "https://cdn.jsdelivr.net/npm/chart.js@2.8.0",
+    "/db.js"
+];
 
 // Installing the things from the cache.  Helpful for when it comes back online.
 
