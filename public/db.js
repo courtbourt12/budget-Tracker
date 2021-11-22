@@ -1,4 +1,4 @@
-const { response } = require("express");
+// const { response } = require("express");
 // When the site is offline, I want to grab all of the cached data and save it into an object.
 const indexedDB = 
 window.indexedDB ||
